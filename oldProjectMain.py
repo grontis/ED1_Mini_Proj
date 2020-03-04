@@ -149,7 +149,7 @@ def main(passcode, ps, last):
     time.sleep(1.5)
     print("Current Passcode:")
     print(*passcode)
-    return passcode, ps
+    return passcode, ps, last
 
 def getTemp():
     tempF = 0
