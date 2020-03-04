@@ -126,11 +126,11 @@ def main():
         #currentTime = datetime.datetime.now()
         #currentTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
         #print(currentTime)
-        payload = {"state": {"reported": {"temp": str(tempReading),"time": currentTime}}}
-        deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
+        #payload = {"state": {"reported": {"temp": str(tempReading),"time": currentTime}}}
+        #deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
 
 
-        time.sleep(0.5)
+    time.sleep(0.5)
 
 def getTemp():
     tempF = 0
