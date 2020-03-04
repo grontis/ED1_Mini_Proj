@@ -17,5 +17,4 @@ def getLight():
 	return lightVal/100
 
 
-
 print(getLight())
