@@ -30,9 +30,10 @@ lowerBound = 5000
 upperBound = 7000
 
 #passcode variables
-#passcodeEntered = False
-#passcodeSequence = 0
-#passcode = '10'
+passcodeEntered = False
+ps = 0
+passcode = ''
+motionInput = 2
 
 #Initialize RGB LEDs to off at start
 GPIO.setmode(GPIO.BCM)
@@ -45,7 +46,7 @@ GPIO.output(22, GPIO.LOW)
 
 def main():
     global passcodeEntered
-    global passcodeSequence
+    global ps
     global passcode
 
     led2 = LEDController(17, 27, 22)
@@ -67,15 +68,34 @@ def main():
 
     if lightReading < lowerBound:
         print("None: No motion " + str(lightReading))
-        #motionInput = '0'
     time.sleep(0.05)
-    if lowerBound<= lightReading <= upperBound:
-        print("0: Close motion " + str(lightReading))
-        #motionInput = '0'
+    if lowerBound <= lightReading <= upperBound:
+        print("1: Far motion " + str(lightReading))
+        if passcode[ps] == '':
+            passcode[ps] = '1'
+            ps += 1
+        elif passcode[ps] == '0':
+            ps += 1
+            passcode[ps] = '1'
+            if ps == 4:
+                ps = 0
+                print("Passcode is: " + passcode)
+                print("Passcode is now being reset.")
+                passcode = ''
         time.sleep(0.05)
     if lightReading > upperBound:
-        print("1: Far motion " + str(lightReading))
-        #motionInput = '1'
+        print("0: Close motion " + str(lightReading))
+        if passcode[ps] == '':
+            passcode[ps] = '0'
+            ps += 1
+        elif passcode[ps] == '1':
+            ps += 1
+            passcode[ps] = '0'
+            if ps == 4:
+                ps = 0
+                print("Passcode is: " + passcode)
+                print("Passcode is now being reset.")
+                passcode = ''
         time.sleep(0.05)
 
         #if motionInput == passcode[passcodeSequence] and motionInput != '' and passcodeEntered == False:
