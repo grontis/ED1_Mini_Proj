@@ -17,4 +17,32 @@ def getLight():
 	return lightVal/100
 
 
-print(getLight())
+def turnOnLED(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
+
+
+#LEDs
+red = 17
+green = 27
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(red, GPIO.OUT)
+GPIO.output(red, GPIO.LOW)
+GPIO.setup(green, GPIO.OUT)
+GPIO.output(green, GPIO.LOW)
+
+
+#Motor Output
+GPIO.setup(22, GPIO.OUT)
+GPIO.output(22, GPIO.LOW)
+
+
+while True:
+    lightVal = getLight()
+    if(lightVal > 5000):
+        turnOnLED(red)
+    else:
+        turnOnLED(green)
+
+    print(lightVal)
