@@ -56,6 +56,7 @@ def main(passcode, ps, last):
     #No shade
     if lightReading < lowerBound:
         print("None: No motion " + str(lightReading))
+        last = 2
         time.sleep(0.05)
     #A little shade
     elif lightReading <= upperBound and lowerBound <= lightReading:
