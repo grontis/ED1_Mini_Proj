@@ -30,7 +30,6 @@ lowerBound = 5000
 upperBound = 7000
 
 #passcode variables
-passcodeEntered = False
 ps = 0
 passcode = [2, 2, 2, 2, 2]
 
@@ -43,31 +42,21 @@ GPIO.output(27, GPIO.LOW)
 GPIO.setup(22, GPIO.OUT)
 GPIO.output(22, GPIO.LOW)
 
-def main():
-    global passcodeEntered
-    global ps
-    global passcode
+def main(passcode, ps):
 
-    led2 = LEDController(17, 27, 22)
+    #led2 = LEDController(17, 27, 22)
 
-    #if  passcodeEntered == False:
+    #Read light
 
-        #blink Password LED red
-    #    led2.redOn()
-    #    time.sleep(0.005)
-    #    led2.redOff()
-
-        #motionInput = ''
     lightReading = getLight()
 
-    #if irReading > closeLowerBound:
-        #print("1: Close Motion " + str(irReading))
-        #motionInput = '1'
-        #time.sleep(0.05)
+    #Check light reading
 
+    #No shade
     if lightReading < lowerBound:
         print("None: No motion " + str(lightReading))
         time.sleep(0.05)
+    #A little shade
     elif lightReading <= upperBound and lowerBound <= lightReading:
         print("1: Far motion " + str(lightReading))
         if passcode[0] == 2:
@@ -84,6 +73,7 @@ def main():
                 print("Passcode is now being reset.")
                 passcode = [2, 2, 2, 2, 2]
         time.sleep(0.05)
+    #Max shade
     elif lightReading > upperBound:
         print("0: Close motion " + str(lightReading))
         if passcode[0] == 2:
@@ -154,6 +144,7 @@ def main():
 
 
     time.sleep(0.5)
+    return passcode, ps
 
 def getTemp():
     tempF = 0
@@ -190,4 +181,4 @@ class LEDController:
         GPIO.output(pin, GPIO.LOW)
 
 while(True):
-    main()
+    passcode, ps = main(passcode, ps)
