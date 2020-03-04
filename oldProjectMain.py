@@ -86,7 +86,8 @@ def main(passcode, ps):
             if ps == 4:
                 print("spot 4")
                 ps = 0
-                print("Passcode is: " + passcode)
+                print("Passcode is: ")
+                print(*passcode)
                 print("Passcode is now being reset.")
                 passcode = [2, 2, 2, 2, 2]
         time.sleep(0.05)
@@ -143,8 +144,9 @@ def main(passcode, ps):
         #deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
 
 
-    time.sleep(0.5)
-    print("Current Passcode: " + passcode[0] +"" + passcode[1] + "" + passcode[2] + "" + passcode[3] + "" + passcode[4])
+    time.sleep(1.5)
+    print("Current Passcode:")
+    print(*passcode)
     print("Current ps Index: " + ps)
     return passcode, ps
 
