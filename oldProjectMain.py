@@ -147,7 +147,8 @@ def main(passcode, ps):
     time.sleep(1.5)
     print("Current Passcode:")
     print(*passcode)
-    print("Current ps Index: " + ps)
+    print("Current ps Index:")
+    print(ps)
     return passcode, ps
 
 def getTemp():
