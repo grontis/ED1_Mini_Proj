@@ -12,9 +12,10 @@ chan1 = AnalogIn(ads, ADS.P0)
 
 def getLight():
 	lightVal = 0
-	for i in range(5):
+	for i in range(100):
 		lightVal += chan1.value
-	return lightVal/5
+	return lightVal/100
 
-while True:
-    print(getLight())
+
+
+print(getLight())
