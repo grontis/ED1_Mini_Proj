@@ -67,36 +67,34 @@ def main():
 
     if lightReading < lowerBound:
         print("None: No motion " + str(lightReading))
-    time.sleep(0.05)
-    if lowerBound <= lightReading <= upperBound:
+        time.sleep(0.05)
+    elif lightReading <= upperBound and lowerBound <= lightReading:
         print("1: Far motion " + str(lightReading))
         if passcode[0] == 2:
-            print("spot 1")
             passcode[ps] = 1
-            ps += 1
+            ps = ps + 1
         elif passcode[ps] == 0:
-            print("spot 2")
-            ps += 1
+            print("spot 1")
+            ps = ps + 1
             passcode[ps] = 1
             if ps == 4:
-                print("spot 5")
+                print("spot 3")
                 ps = 0
                 print("Passcode is: " + passcode)
                 print("Passcode is now being reset.")
                 passcode = [2, 2, 2, 2, 2]
         time.sleep(0.05)
-    if lightReading > upperBound:
+    elif lightReading > upperBound:
         print("0: Close motion " + str(lightReading))
         if passcode[0] == 2:
-            print("spot 3")
             passcode[ps] = 0
-            ps += 1
+            ps = ps + 1
         elif passcode[ps] == 1:
-            print("spot 4")
-            ps += 1
+            print("spot 2")
+            ps = ps + 1
             passcode[ps] = 0
             if ps == 4:
-                print("spot 6")
+                print("spot 4")
                 ps = 0
                 print("Passcode is: " + passcode)
                 print("Passcode is now being reset.")
