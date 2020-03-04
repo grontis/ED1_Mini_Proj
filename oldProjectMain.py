@@ -80,7 +80,7 @@ def main():
                 ps = 0
                 print("Passcode is: " + passcode)
                 print("Passcode is now being reset.")
-                passcode = ''
+                passcode = [2, 2, 2, 2, 2]
         time.sleep(0.05)
     if lightReading > upperBound:
         print("0: Close motion " + str(lightReading))
@@ -94,7 +94,7 @@ def main():
                 ps = 0
                 print("Passcode is: " + passcode)
                 print("Passcode is now being reset.")
-                passcode = ''
+                passcode = [2, 2, 2, 2, 2]
         time.sleep(0.05)
 
         #if motionInput == passcode[passcodeSequence] and motionInput != '' and passcodeEntered == False:
