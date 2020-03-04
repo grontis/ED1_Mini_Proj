@@ -67,7 +67,10 @@ while True:
         turnOnLED(green)
         turnOffLED(red)
 
+    GPIO.setup(motor1, GPIO.OUT)
+    GPIO.output(motor1, GPIO.LOW)
     GPIO.setup(motor2, GPIO.OUT)
     GPIO.output(motor2, GPIO.HIGH)
+
 
     print(lightVal)
