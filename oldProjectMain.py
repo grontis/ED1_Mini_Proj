@@ -32,7 +32,7 @@ upperBound = 7000
 #passcode variables
 passcodeEntered = False
 ps = 0
-passcode = ''
+passcode = [2, 2, 2, 2, 2]
 
 #Initialize RGB LEDs to off at start
 GPIO.setmode(GPIO.BCM)
@@ -70,12 +70,12 @@ def main():
     time.sleep(0.05)
     if lowerBound <= lightReading <= upperBound:
         print("1: Far motion " + str(lightReading))
-        if passcode == '':
-            passcode[ps] = '1'
+        if passcode[0] == 2:
+            passcode[ps] = 1
             ps += 1
-        elif passcode[ps] == '0':
+        elif passcode[ps] == 0:
             ps += 1
-            passcode[ps] = '1'
+            passcode[ps] = 1
             if ps == 4:
                 ps = 0
                 print("Passcode is: " + passcode)
@@ -84,12 +84,12 @@ def main():
         time.sleep(0.05)
     if lightReading > upperBound:
         print("0: Close motion " + str(lightReading))
-        if passcode == '':
-            passcode[ps] = '0'
+        if passcode[0] == 2:
+            passcode[ps] = 0
             ps += 1
-        elif passcode[ps] == '1':
+        elif passcode[ps] == 1:
             ps += 1
-            passcode[ps] = '0'
+            passcode[ps] = 0
             if ps == 4:
                 ps = 0
                 print("Passcode is: " + passcode)
