@@ -32,6 +32,7 @@ upperBound = 7000
 #passcode variables
 ps = 0
 passcode = [2, 2, 2, 2, 2]
+last = 2
 
 #Initialize RGB LEDs to off at start
 GPIO.setmode(GPIO.BCM)
@@ -42,7 +43,7 @@ GPIO.output(27, GPIO.LOW)
 GPIO.setup(22, GPIO.OUT)
 GPIO.output(22, GPIO.LOW)
 
-def main(passcode, ps):
+def main(passcode, ps, last):
 
     #led2 = LEDController(17, 27, 22)
 
@@ -62,12 +63,15 @@ def main(passcode, ps):
         if passcode[0] == 2:
             passcode[ps] = 1
             ps = ps + 1
-        elif passcode[ps-1] == 0:
+            last = 1
+        elif last != 1:
             passcode[ps] = 1
             ps = ps + 1
-            if ps == 4:
+            last = 1
+            if ps == 5:
                 ps = 0
-                print("Passcode is: " + passcode)
+                print("Passcode is: ")
+                print(*passcode)
                 print("Passcode is now being reset.")
                 passcode = [2, 2, 2, 2, 2]
         time.sleep(0.05)
@@ -77,10 +81,12 @@ def main(passcode, ps):
         if passcode[0] == 2:
             passcode[ps] = 0
             ps = ps + 1
-        elif passcode[ps-1] == 1:
+            last = 0
+        elif last != 0:
             passcode[ps] = 0
             ps = ps + 1
-            if ps == 4:
+            last = 0
+            if ps == 5:
                 ps = 0
                 print("Passcode is: ")
                 print(*passcode)
@@ -143,8 +149,6 @@ def main(passcode, ps):
     time.sleep(1.5)
     print("Current Passcode:")
     print(*passcode)
-    print("Current ps Index:")
-    print(ps)
     return passcode, ps
 
 def getTemp():
@@ -182,4 +186,4 @@ class LEDController:
         GPIO.output(pin, GPIO.LOW)
 
 while(True):
-    passcode, ps = main(passcode, ps)
+    passcode, ps, last = main(passcode, ps, last)
