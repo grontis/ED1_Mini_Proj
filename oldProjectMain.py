@@ -30,9 +30,9 @@ lowerBound = 5000
 upperBound = 7000
 
 #passcode variables
-passcodeEntered = False
-passcodeSequence = 0
-passcode = '10'
+#passcodeEntered = False
+#passcodeSequence = 0
+#passcode = '10'
 
 #Initialize RGB LEDs to off at start
 GPIO.setmode(GPIO.BCM)
@@ -57,7 +57,7 @@ def main():
     #    time.sleep(0.005)
     #    led2.redOff()
 
-        motionInput = ''
+        #motionInput = ''
         lightReading = getLight()
 
         #if irReading > closeLowerBound:
@@ -71,11 +71,11 @@ def main():
             time.sleep(0.05)
 	if lowerBound<= lightReading <= upperBound:
 	    print("0: Close motion " + str(lightReading))
-	    motionInput = '0'
+	    #motionInput = '0'
 	    time.sleep(0.05)
 	if lightReading > upperBound:
 	    print("1: Far motion " + str(lightReading))
-	    motionInput = '1'
+	    #motionInput = '1'
 	    time.sleep(0.05)
 
         #if motionInput == passcode[passcodeSequence] and motionInput != '' and passcodeEntered == False:
