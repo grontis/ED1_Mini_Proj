@@ -145,9 +145,9 @@ def getTemp():
     return tempF
 
 def getLight():
-	lightValue = 0
+    lightValue = 0
 	for i in range(5):
-		lightValue += lightChannel.value
+	    lightValue += lightChannel.value
 	return lightValue/5
 
 class LEDController:
