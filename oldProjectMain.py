@@ -143,7 +143,9 @@ def main(passcode, ps):
         #deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
 
 
-    time.sleep(0.5)
+    time.sleep(1)
+    print("Current Passcode: " + passcode)
+    print("Current ps Index: " + ps)
     return passcode, ps
 
 def getTemp():
