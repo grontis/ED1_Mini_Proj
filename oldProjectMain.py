@@ -60,23 +60,23 @@ def main():
         #motionInput = ''
     lightReading = getLight()
 
-	#if irReading > closeLowerBound:
-	    #print("1: Close Motion " + str(irReading))
-	    #motionInput = '1'
-	    #time.sleep(0.05)
+    #if irReading > closeLowerBound:
+        #print("1: Close Motion " + str(irReading))
+        #motionInput = '1'
+        #time.sleep(0.05)
 
     if lightReading < lowerBound:
-	print("None: No motion " + str(lightReading))
-	    #motionInput = '0'
-	time.sleep(0.05)
+        print("None: No motion " + str(lightReading))
+        #motionInput = '0'
+    time.sleep(0.05)
     if lowerBound<= lightReading <= upperBound:
-	print("0: Close motion " + str(lightReading))
-	    #motionInput = '0'
+        print("0: Close motion " + str(lightReading))
+        #motionInput = '0'
         time.sleep(0.05)
     if lightReading > upperBound:
-	print("1: Far motion " + str(lightReading))
-	    #motionInput = '1'
-	time.sleep(0.05)
+        print("1: Far motion " + str(lightReading))
+        #motionInput = '1'
+        time.sleep(0.05)
 
         #if motionInput == passcode[passcodeSequence] and motionInput != '' and passcodeEntered == False:
         #    if len(passcode) - 1 == passcodeSequence:
@@ -146,9 +146,9 @@ def getTemp():
 
 def getLight():
     lightValue = 0
-	for i in range(5):
-	    lightValue += lightChannel.value
-	return lightValue/5
+    for i in range(5):
+        lightValue += lightChannel.value
+    return lightValue/5
 
 class LEDController:
     def __init__(self, redpin, greenpin, bluepin):
