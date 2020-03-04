@@ -24,6 +24,18 @@ def turnOnLED(pin):
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
 
+def turnOffLED(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
+
+def moveForward(motor1, motor2):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(motor1, GPIO.OUT)
+    GPIO.output(motor1, GPIO.LOW)
+    GPIO.setup(motor2, GPIO.OUT)
+    GPIO.output(motor2, GPIO.HIGH)
+
 
 #LEDs
 red = 17
@@ -36,15 +48,24 @@ GPIO.output(green, GPIO.LOW)
 
 
 #Motor Output
-GPIO.setup(22, GPIO.OUT)
-GPIO.output(22, GPIO.LOW)
+motor1 = 22
+motor2 = 5
+GPIO.setup(motor1, GPIO.OUT)
+GPIO.output(motor1, GPIO.LOW)
+
+GPIO.setup(motor2, GPIO.OUT)
+GPIO.output(motor2, GPIO.LOW)
 
 
 while True:
     lightVal = getLight()
     if(lightVal > 5000):
         turnOnLED(red)
+        turnOffLED(green)
+        moveForward(motor1, motor2)
+
     else:
         turnOnLED(green)
+        turnOffLED(red)
 
     print(lightVal)
