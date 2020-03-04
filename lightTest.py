@@ -62,10 +62,12 @@ while True:
     if(lightVal > 5000):
         turnOnLED(red)
         turnOffLED(green)
-        moveForward(motor1, motor2)
 
     else:
         turnOnLED(green)
         turnOffLED(red)
+
+    GPIO.setup(motor2, GPIO.OUT)
+    GPIO.output(motor2, GPIO.HIGH)
 
     print(lightVal)
