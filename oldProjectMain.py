@@ -62,7 +62,7 @@ def main(passcode, ps):
         if passcode[0] == 2:
             passcode[ps] = 1
             ps = ps + 1
-        elif passcode[ps] == 0:
+        elif passcode[ps-1] == 0:
             print("spot 1")
             ps = ps + 1
             passcode[ps] = 1
@@ -79,7 +79,7 @@ def main(passcode, ps):
         if passcode[0] == 2:
             passcode[ps] = 0
             ps = ps + 1
-        elif passcode[ps] == 1:
+        elif passcode[ps-1] == 1:
             print("spot 2")
             ps = ps + 1
             passcode[ps] = 0
