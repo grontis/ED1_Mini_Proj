@@ -143,8 +143,8 @@ def main(passcode, ps):
         #deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
 
 
-    time.sleep(1)
-    print("Current Passcode: " + passcode[0]+passcode[1]+passcode[2]+passcode[3]+passcode[4])
+    time.sleep(0.5)
+    print("Current Passcode: " + passcode[0] +"" + passcode[1] + "" + passcode[2] + "" + passcode[3] + "" + passcode[4])
     print("Current ps Index: " + ps)
     return passcode, ps
 
