@@ -63,11 +63,9 @@ def main(passcode, ps):
             passcode[ps] = 1
             ps = ps + 1
         elif passcode[ps-1] == 0:
-            print("spot 1")
-            ps = ps + 1
             passcode[ps] = 1
+            ps = ps + 1
             if ps == 4:
-                print("spot 3")
                 ps = 0
                 print("Passcode is: " + passcode)
                 print("Passcode is now being reset.")
@@ -80,11 +78,9 @@ def main(passcode, ps):
             passcode[ps] = 0
             ps = ps + 1
         elif passcode[ps-1] == 1:
-            print("spot 2")
-            ps = ps + 1
             passcode[ps] = 0
+            ps = ps + 1
             if ps == 4:
-                print("spot 4")
                 ps = 0
                 print("Passcode is: ")
                 print(*passcode)
