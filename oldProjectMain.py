@@ -138,8 +138,8 @@ def main(passcode, ps, last):
         #deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
 
 
-    print("Current Passcode:")
-    print(*passcode)
+    #print("Current Passcode:")
+    #print(*passcode)
     return passcode, ps, last
 
 def getTemp():
