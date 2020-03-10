@@ -112,7 +112,9 @@ def main(passcode, ps, last, set, red, green, motorOn, greenState):
 
     #elif motorOn == 1:
     if motorOn != 2:
-        greenState = greenLight(green, motorOn, greenState)
+        greenLight(green, motorOn, greenState)
+        greenState += 1
+        print("GS: ", greenState)
     return passcode, ps, last, set, greenState
 
 
@@ -230,7 +232,6 @@ def greenLight(green, motorOn, greenState):
         elif greenState % 1 == 0:
             turnOff(green)
     greenState += 1
-    return greenState
 
 
 def blink_green_fast(green):
