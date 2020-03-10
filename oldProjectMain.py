@@ -92,7 +92,7 @@ def main(passcode, ps, last, set, red, green, motorOn, greenState):
                 ps = 0
                 print("Passcode is: ", *passcode)
                 #print(*passcode)
-                set, motorOn = check_action(passcode, motorOn, set, red, green, greenState)
+                set, motorOn, greenState = check_action(passcode, motorOn, set, red, green, greenState)
                 passcode = [2, 2, 2, 2, 2]
         last = 2
 
