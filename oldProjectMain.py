@@ -31,12 +31,6 @@ ps = 0
 passcode = [2, 2, 2, 2, 2]
 set = [1, 0, 1, 0]
 last = 2
-#e = threading.Event() #Clockwise
-#e2 = threading.Event() #Counterclockwise
-#t = threading.Thread(name = "non-block", target=greenLight, args=(e, 2))
-#e.set()
-#e2.set()
-
 
 #Motor Output
 
@@ -108,13 +102,10 @@ def main(passcode, ps, last, set, red, green, motorOn, greenState):
     #Checking motor state
     #Record time from 0 state, collect time intervals to toggle light
 
-    #if motorOn == 0:
-
-    #elif motorOn == 1:
     if motorOn != 2:
         greenLight(green, motorOn, greenState)
         greenState += 1
-        print("GS: ", greenState)
+        #print("GS: ", greenState)
     return passcode, ps, last, set, motorOn, greenState
 
 
