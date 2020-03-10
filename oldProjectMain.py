@@ -28,20 +28,30 @@ upperBound = 4000
 #passcode variables
 ps = 0
 passcode = [2, 2, 2, 2, 2]
+set = [1, 0, 1, 0]
 last = 2
 
-#Initialize RGB LEDs to off at start
+#Motor Output
+motor1 = 22
+motor2 = 5
+GPIO.setup(motor1, GPIO.OUT)
+GPIO.output(motor1, GPIO.LOW)
+
+GPIO.setup(motor2, GPIO.OUT)
+GPIO.output(motor2, GPIO.LOW)
+
+#LEDs
+red = 17
+green = 27
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
-GPIO.output(17, GPIO.LOW)
-GPIO.setup(27, GPIO.OUT)
-GPIO.output(27, GPIO.LOW)
-GPIO.setup(22, GPIO.OUT)
-GPIO.output(22, GPIO.LOW)
+GPIO.setup(red, GPIO.OUT)
+GPIO.output(red, GPIO.LOW)
+GPIO.setup(green, GPIO.OUT)
+GPIO.output(green, GPIO.LOW)
 
-def main(passcode, ps, last):
+motorOn = 2
 
-    #led2 = LEDController(17, 27, 22)
+def main(passcode, ps, last, set, red, green, motorOn):
 
     #Read light
 
@@ -54,127 +64,175 @@ def main(passcode, ps, last):
 
     #No shade
     if lightReading < lowerBound:
-        #print("None: No motion " + str(lightReading))
         if last == 1: #Light hand wave
             passcode[ps] = 1
             print("1: Far motion")
+            red_blink_high(red)
             ps = ps + 1
             if ps == 5:
                 ps = 0
-                print("Passcode is: ")
-                print(*passcode)
-                print("Passcode is now being reset.")
+                print("Passcode is: ", *passcode)
+                set, motorOn = check_action(passcode, motorOn, set, green)
                 passcode = [2, 2, 2, 2, 2]
         elif last == 0: #Dark hand wave
             passcode[ps] = 0
             print("0: Close motion")
+            red_blink_low(red)
             ps = ps + 1
             if ps == 5:
                 ps = 0
-                print("Passcode is: ")
-                print(*passcode)
-                print("Passcode is now being reset.")
+                print("Passcode is: ", *passcode)
+                #print(*passcode)
+                set = check_action(passcode, set)
                 passcode = [2, 2, 2, 2, 2]
         last = 2
+
     #A little shade
     elif lightReading <= upperBound and lowerBound <= lightReading:
-        #print("1: Far motion " + str(lightReading))
         if last == 2:
             last = 1
+
     #Max shade
     elif lightReading > upperBound:
-        #print("0: Close motion " + str(lightReading))
         last = 0
 
-        #if motionInput == passcode[passcodeSequence] and motionInput != '' and passcodeEntered == False:
-        #    if len(passcode) - 1 == passcodeSequence:
-        #        passcodeEntered = True
-        #        passcodeSequence = 0
-        #    else:
-        #        passcodeSequence += 1
-        #    led2.greenOn()
-        #    time.sleep(0.2)
-        #    led2.greenOff()
-        #elif motionInput != passcode[passcodeSequence] and motionInput != '' and passcodeEntered == False:
-        #    print("Mistake in passcode sequence")
-        #    passcodeSequence = 0
-        #    led2.redOn()
-        #    time.sleep(1)
-        #    led2.redOff()
+    #Checking motor state
+    #if motorOn == 0:
 
-        #if passcodeEntered:
-        #    led2.greenOn()
-        #    print("Password entered correctly.")
-        #time.sleep(0.2)
+    #elif motorOn == 1:
 
-    #if passcodeEntered:
-    #    tempReading = getTemp()
+    #return passcode, ps, last, set
 
-        #led1 = LEDController(17, 27, 22)
-        #if tempReading< threshold - 8:
-        #    led1.allOff()
-        #    led1.magentaOn()
-        #elif threshold-8 < tempReading < threshold-4:
-        #    led1.allOff()
-        #    led1.blueOn()
-        #elif threshold-4 < tempReading < threshold-2:
-        #    led1.allOff()
-        #    led1.cyanOn()
-        #elif threshold-2 < tempReading < threshold + 2:
-        #    led1.allOff()
-        #    led1.greenOn()
-        #elif threshold+2 < tempReading < threshold+4:
-        #    led1.allOff()
-        #    led1.yellowOn()
-        #elif threshold+4 < tempReading:
-        #    led1.allOff()
-        #    led1.redOn()
+def reset_password(set, last = 2):
+    print("Reset your password:")
+    n = 0
+    old = [0, 0, 0, 0]
+    old[0] = set[0]
+    old[1] = set[1]
+    old[2] = set[2]
+    old[3] = set[3]
 
-        #print(tempReading)
-        #currentTime = datetime.datetime.now()
-        #currentTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
-        #print(currentTime)
-        #payload = {"state": {"reported": {"temp": str(tempReading),"time": currentTime}}}
-        #deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
+    # Check light reading
+    lightReading = getLight()
+
+    # No shade
+    if lightReading < lowerBound:
+        # print("None: No motion " + str(lightReading))
+        if last == 1:  # Light hand wave
+            set[n] = 1
+            print("1: Far motion")
+            red_blink_high()
+            n += 1
+            if n == 4:
+                if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
+                            and set[2] == 0 and set[3] == 0):
+                    print(*set, "is already a required command, not resetting password")
+                    return old
+                else:
+                    print("The new password is: ", *set)
+                    return set
+        elif last == 0:  # Dark hand wave
+            set[n] = 0
+            print("0: Close motion")
+            red_blink_low()
+            n += 1
+            if n == 4:
+                if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
+                            and set[2] == 0 and set[3] == 0):
+                    print(*set, "is already a required command, not resetting password")
+                    return old
+                else:
+                    print("The new password is: ", *set)
+                    return set
+        last = 2
+
+    # A little shade
+    elif lightReading <= upperBound and lowerBound <= lightReading:
+        if last == 2:
+            last = 1
+    # Max shade
+    elif lightReading > upperBound:
+        last = 0
 
 
-    #print("Current Passcode:")
-    #print(*passcode)
-    return passcode, ps, last
 
-def getTemp():
-    tempF = 0
-    for i in range(20):
-        #get celsius reading from sensor
-        temp = (tempChannel.voltage - .5) /.01
-        #then convert to F
-        tempF += temp * (1.8) + 32
-    #average 5 readings
-    tempF = tempF / 20
-    tempF = tempF - 4
-    return tempF
+def check_action(p, motorOn, set, green):
+    if p[0] == set[0] and p[1] == set[1] and p[2] == set[2] and p[3] == set[3]:
+        if p[4] == 1:
+            motorOn = 1  #Clockwise
+            #blink_green_fast(green)
+            print("Motor Clockwise")
+            return set, motorOn
+        if p[4] == 0:
+            motorOn = 0  #Counterclockwise
+            #blink_green_slow(green)
+            print("Motor Counterclockwise")
+            return set, motorOn
+    elif p[0] == 0 and p[1] == 0 and p[2] == 0 and p[3] == 0 and p[4] == 0:
+        #green_off(green)
+        return set, motorOn
+    elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
+        set = reset_password(set)
+        return set, motorOn
+    else:
+        print("Password not recognized")
+        return set, motorOn
 
-def getLight():
-    lightValue = 0
-    for i in range(5):
-        lightValue += lightChannel.value
-    return lightValue/5
+def blink_red_high(red):
+    turnOn(red)
+    time.sleep(0.03)
+    turnOff(red)
+    time.sleep(0.03)
+    turnOn(red)
+    time.sleep(0.03)
+    turnOff(red)
 
-class LEDController:
-    def __init__(self, redpin, greenpin, bluepin):
-        self.redPin = redpin
-        self.greenPin = greenpin
-        self.bluePin = bluepin
+def blink_red_low(red):
+    turnOn(red)
+    time.sleep(0.1)
+    turnOff(red)
 
-    def blink(self, pin):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, GPIO.HIGH)
+def blink_green_fast(green):
+    turnOn(green)
+    time.sleep(0.03)
+    turnOff(green)
+    time.sleep(0.03)
 
-    def turnOff(self, pin):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, GPIO.LOW)
+def blink_green_slow(green):
+    turnOn(green)
+    time.sleep(0.1)
+    turnOff(green)
+    time.sleep(0.1)
 
+def green_off(green):
+    turnOff(green)
+
+
+#Pin commands
+
+def turnOn(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
+
+def turnOff(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
+
+#Motor command
+
+def moveForward(motor1, motor2):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(motor1, GPIO.OUT)
+    GPIO.output(motor1, GPIO.LOW)
+    GPIO.setup(motor2, GPIO.OUT)
+    GPIO.output(motor2, GPIO.HIGH)
+
+
+print("Current first 4 passcode digits: HLHL")
+print("Then use H for clock-wise and L for counter-clockwise")
+print("Stop motor with LLLLL")
+print("Reset password with HHHHH")
 while(True):
-    passcode, ps, last = main(passcode, ps, last)
+    passcode, ps, last, set = main(passcode, ps, last, set, red, green, motorOn)
