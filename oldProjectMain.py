@@ -152,8 +152,6 @@ def reset_password(set, red, greenState, last = 2):
         return set, greenState
 
 
-
-
 def getLight():
     lightVal = 0
     for i in range(100):
@@ -181,7 +179,7 @@ def check_action(p, motorOn, set, red, green, greenState):
         motorOn = 2
         motorStop()
         print("Motor Off")
-        return set, motorOn
+        return set, motorOn, greenState
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
         set, greenState = reset_password(set, red, greenState)
         return set, motorOn, greenState
@@ -225,21 +223,6 @@ def greenLight(green, motorOn, greenState):
     greenState += 1
 
 
-def blink_green_fast(green):
-    turnOn(green)
-    time.sleep(0.03)
-    turnOff(green)
-    time.sleep(0.03)
-
-def blink_green_slow(green):
-    turnOn(green)
-    time.sleep(0.1)
-    turnOff(green)
-    time.sleep(0.1)
-
-def green_off(green):
-    turnOff(green)
-
 def turnOn(pin):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(pin, GPIO.OUT)
@@ -251,17 +234,17 @@ def turnOff(pin):
     GPIO.output(pin, GPIO.LOW)
 
 def clockwise():
-	GPIO.output(motorA,GPIO.HIGH)
-	GPIO.output(motorB,GPIO.LOW)
-	GPIO.output(motorE,GPIO.HIGH)
+    GPIO.output(motorA,GPIO.HIGH)
+    GPIO.output(motorB,GPIO.LOW)
+    GPIO.output(motorE,GPIO.HIGH)
 
 def counterClockwise():
-	GPIO.output(motorA,GPIO.LOW)
-	GPIO.output(motorB,GPIO.HIGH)
-	GPIO.output(motorE,GPIO.HIGH)
+    GPIO.output(motorA,GPIO.LOW)
+    GPIO.output(motorB,GPIO.HIGH)
+    GPIO.output(motorE,GPIO.HIGH)
 
 def motorStop():
-	GPIO.output(motorE,GPIO.LOW)
+    GPIO.output(motorE,GPIO.LOW)
 
 
 print("Current first 4 passcode digits: HLHL")
