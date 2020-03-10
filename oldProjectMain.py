@@ -116,7 +116,7 @@ def main(passcode, ps, last, set, red, green, motorOn, greenState):
     return passcode, ps, last, set, greenState
 
 
-def reset_password(set, red, last = 2, greenState):
+def reset_password(set, red, greenState, last = 2):
     print("Reset your password:")
     n = 0
     old = [0, 0, 0, 0]
