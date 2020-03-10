@@ -107,6 +107,7 @@ def main(passcode, ps, last, set, red, green, motorOn):
 def reset_password(set, red, last = 2):
     print("Reset your password:")
     n = 0
+    print(*set)
     old = [0, 0, 0, 0]
     old[0] = set[0]
     old[1] = set[1]
