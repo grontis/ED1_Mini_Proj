@@ -91,7 +91,7 @@ def main(passcode, ps, last, set, red, green, motorOn):
                 ps = 0
                 print("Passcode is: ", *passcode)
                 #print(*passcode)
-                set = check_action(passcode, motorOn, set, red, green)
+                set, motorOn = check_action(passcode, motorOn, set, red, green)
                 passcode = [2, 2, 2, 2, 2]
         last = 2
 
