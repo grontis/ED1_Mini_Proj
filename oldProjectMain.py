@@ -142,7 +142,8 @@ def reset_password(set, red, motorOn, greenState, last = 2):
         elif lightReading > upperBound:
             last = 0
         if motorOn != 2:
-            greenState = greenLight(green, motorOn, greenState)
+            greenLight(green, motorOn, greenState)
+            greenLight += 1
     if ((set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
                                                          and set[2] == 0 and set[3] == 0)):
         print(*set, "is already a required command, not resetting password")
@@ -181,7 +182,8 @@ def check_action(p, motorOn, set, red, green, greenState):
         print("Motor Off")
         return set, motorOn, greenState
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
-        set, greenState = reset_password(set, red, motorOn, greenState)
+        print(set, motorOn, greenState)
+        set = reset_password(set, red, motorOn, greenState)
         return set, motorOn, greenState
     else:
         print("Password not recognized")
@@ -202,13 +204,6 @@ def blink_red_low(red):
     turnOff(red)
 
 
-#def greenLight(e, t, green):
-    #while e.isSet():
-        #time.sleep(.1)
-        #event_set = e.is_set() #####
-        #if event_set:
-
-
 def greenLight(green, motorOn, greenState):
     if motorOn == 0: #Counterclockwise
         if greenState % 4 == 0:
@@ -220,7 +215,6 @@ def greenLight(green, motorOn, greenState):
             turnOn(green)
         elif greenState % 1 == 0:
             turnOff(green)
-    greenState += 1
 
 
 def turnOn(pin):
