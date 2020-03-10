@@ -23,7 +23,7 @@ lightChannel = AnalogIn(ads, ADS.P0)
 
 
 #Light sensor bounds
-lowerBound = 4000
+lowerBound = 3000
 upperBound = 5000
 
 #passcode variables
@@ -189,16 +189,16 @@ def check_action(p, motorOn, set, red, green, greenState):
 
 def blink_red_high(red):
     turnOn(red)
-    time.sleep(0.03)
+    time.sleep(0.1)
     turnOff(red)
-    time.sleep(0.03)
+    time.sleep(0.1)
     turnOn(red)
-    time.sleep(0.03)
+    time.sleep(0.1)
     turnOff(red)
 
 def blink_red_low(red):
     turnOn(red)
-    time.sleep(0.1)
+    time.sleep(0.2)
     turnOff(red)
 
 
