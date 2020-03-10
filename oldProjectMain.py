@@ -109,7 +109,7 @@ def main(passcode, ps, last, set, red, green, motorOn, greenState):
     return passcode, ps, last, set, motorOn, greenState
 
 
-def reset_password(set, red, greenState, last = 2):
+def reset_password(set, red, motorOn, greenState, last = 2):
     print("Reset your password:")
     n = 0
     old = [0, 0, 0, 0]
@@ -181,7 +181,7 @@ def check_action(p, motorOn, set, red, green, greenState):
         print("Motor Off")
         return set, motorOn, greenState
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
-        set, greenState = reset_password(set, red, greenState)
+        set, greenState = reset_password(set, red, motorOn, greenState)
         return set, motorOn, greenState
     else:
         print("Password not recognized")
