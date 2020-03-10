@@ -22,8 +22,8 @@ lightChannel = AnalogIn(ads, ADS.P0)
 
 
 #Light sensor bounds
-lowerBound = 5000
-upperBound = 7000
+lowerBound = 2800
+upperBound = 4000
 
 #passcode variables
 ps = 0
