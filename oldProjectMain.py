@@ -4,6 +4,7 @@ import time
 import json
 import argparse
 import datetime
+import threading
 
 import board
 import busio
@@ -30,15 +31,22 @@ ps = 0
 passcode = [2, 2, 2, 2, 2]
 set = [1, 0, 1, 0]
 last = 2
+#e = threading.Event() #Clockwise
+#e2 = threading.Event() #Counterclockwise
+#t = threading.Thread(name = "non-block", target=greenLight, args=(e, 2))
+#e.set()
+#e2.set()
+
 
 #Motor Output
-motor1 = 22
-motor2 = 5
-GPIO.setup(motor1, GPIO.OUT)
-GPIO.output(motor1, GPIO.LOW)
 
-GPIO.setup(motor2, GPIO.OUT)
-GPIO.output(motor2, GPIO.LOW)
+#Motor
+motorA=24
+motorB=23
+motorE=25
+GPIO.setup(motorA,GPIO.OUT)
+GPIO.setup(motorB,GPIO.OUT)
+GPIO.setup(motorE,GPIO.OUT)
 
 #LEDs
 red = 17
@@ -97,9 +105,12 @@ def main(passcode, ps, last, set, red, green, motorOn):
         last = 0
 
     #Checking motor state
+    #Record time from 0 state, collect time intervals to toggle light
+
     #if motorOn == 0:
 
     #elif motorOn == 1:
+
 
     return passcode, ps, last, set
 
@@ -159,17 +170,20 @@ def check_action(p, motorOn, set, red, green):
     if p[0] == set[0] and p[1] == set[1] and p[2] == set[2] and p[3] == set[3]:
         if p[4] == 1:
             motorOn = 1  #Clockwise
+            clockwise()
             #blink_green_fast(green)
             print("Motor Clockwise")
             return set, motorOn
         if p[4] == 0:
             motorOn = 0  #Counterclockwise
+            counterClockwise()
             #blink_green_slow(green)
             print("Motor Counterclockwise")
             return set, motorOn
     elif p[0] == 0 and p[1] == 0 and p[2] == 0 and p[3] == 0 and p[4] == 0:
         #green_off(green)
         motorOn = 2
+        motorStop()
         print("Motor Off")
         return set, motorOn
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
@@ -193,6 +207,17 @@ def blink_red_low(red):
     time.sleep(0.1)
     turnOff(red)
 
+
+#def greenLight(e, t, green):
+    #while e.isSet():
+        #time.sleep(.1)
+        #event_set = e.is_set() #####
+        #if event_set:
+
+
+
+
+
 def blink_green_fast(green):
     turnOn(green)
     time.sleep(0.03)
@@ -209,26 +234,19 @@ def green_off(green):
     turnOff(green)
 
 
-#Pin commands
 
-def turnOn(pin):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.HIGH)
+def clockwise():
+	GPIO.output(motorA,GPIO.HIGH)
+	GPIO.output(motorB,GPIO.LOW)
+	GPIO.output(motorE,GPIO.HIGH)
 
-def turnOff(pin):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.LOW)
+def counterClockwise():
+	GPIO.output(motorA,GPIO.LOW)
+	GPIO.output(motorB,GPIO.HIGH)
+	GPIO.output(motorE,GPIO.HIGH)
 
-#Motor command
-
-def moveForward(motor1, motor2):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(motor1, GPIO.OUT)
-    GPIO.output(motor1, GPIO.LOW)
-    GPIO.setup(motor2, GPIO.OUT)
-    GPIO.output(motor2, GPIO.HIGH)
+def motorStop():
+	GPIO.output(motorE,GPIO.LOW)
 
 
 print("Current first 4 passcode digits: HLHL")
