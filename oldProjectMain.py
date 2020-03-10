@@ -143,7 +143,7 @@ def reset_password(set, red, motorOn, greenState, last = 2):
             last = 0
         if motorOn != 2:
             greenLight(green, motorOn, greenState)
-            greenLight += 1
+            greenState += 1
     if ((set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
                                                          and set[2] == 0 and set[3] == 0)):
         print(*set, "is already a required command, not resetting password")
