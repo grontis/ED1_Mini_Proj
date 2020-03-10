@@ -101,7 +101,8 @@ def main(passcode, ps, last, set, red, green, motorOn):
 
     #elif motorOn == 1:
 
-    #return passcode, ps, last, set
+    return passcode, ps, last, set
+
 
 def reset_password(set, last = 2):
     print("Reset your password:")
