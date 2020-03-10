@@ -175,6 +175,8 @@ def check_action(p, motorOn, set, red, green):
             return set, motorOn
     elif p[0] == 0 and p[1] == 0 and p[2] == 0 and p[3] == 0 and p[4] == 0:
         #green_off(green)
+        motorOn = 2
+        print("Motor Off")
         return set, motorOn
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
         set = reset_password(set, red)
