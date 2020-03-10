@@ -154,7 +154,11 @@ def reset_password(set, last = 2):
     elif lightReading > upperBound:
         last = 0
 
-
+def getLight():
+    lightVal = 0
+    for i in range(100):
+        lightVal += lightChannel.value
+    return lightVal / 100
 
 def check_action(p, motorOn, set, green):
     if p[0] == set[0] and p[1] == set[1] and p[2] == set[2] and p[3] == set[3]:
