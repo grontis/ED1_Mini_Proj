@@ -115,46 +115,39 @@ def reset_password(set, red, last = 2):
     old[3] = set[3]
 
     # Check light reading
-    lightReading = getLight()
+    if n < 4:
+        lightReading = getLight()
+        # No shade
+        if lightReading < lowerBound:
+                if last == 1:  # Light hand wave
+                    set[n] = 1
+                    print("1: Far motion")
+                    blink_red_high(red)
+                    n += 1
+                elif last == 0:  # Dark hand wave
+                    set[n] = 0
+                    print("0: Close motion")
+                    blink_red_low(red)
+                    n += 1
+                last = 2
+        # A little shade
+        elif lightReading <= upperBound and lowerBound <= lightReading:
+            if last == 2:
+                last = 1
+        # Max shade
+        elif lightReading > upperBound:
+            last = 0
+    else:
+        if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
+                                                             and set[2] == 0 and set[3] == 0):
+            print(*set, "is already a required command, not resetting password")
+            return old
+        else:
+            print("The new password is: ", *set)
+            return set
 
-    # No shade
-    if lightReading < lowerBound:
-        # print("None: No motion " + str(lightReading))
-        if last == 1:  # Light hand wave
-            set[n] = 1
-            print("1: Far motion")
-            blink_red_high(red)
-            n += 1
-            if n == 3:
-                if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
-                            and set[2] == 0 and set[3] == 0):
-                    print(*set, "is already a required command, not resetting password")
-                    return old
-                else:
-                    print("The new password is: ", *set)
-                    return set
-        elif last == 0:  # Dark hand wave
-            set[n] = 0
-            print("0: Close motion")
-            blink_red_low(red)
-            n += 1
-            if n == 3:
-                if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
-                            and set[2] == 0 and set[3] == 0):
-                    print(*set, "is already a required command, not resetting password")
-                    return old
-                else:
-                    print("The new password is: ", *set)
-                    return set
-        last = 2
 
-    # A little shade
-    elif lightReading <= upperBound and lowerBound <= lightReading:
-        if last == 2:
-            last = 1
-    # Max shade
-    elif lightReading > upperBound:
-        last = 0
+
 
 def getLight():
     lightVal = 0
