@@ -21,10 +21,6 @@ ads = ADS.ADS1015(i2c)
 lightChannel = AnalogIn(ads, ADS.P0)
 
 
-#closeLowerBound = 20000.0
-#farLowerBound = 10000.0
-#farUpperBound = 16000.0
-
 #Light sensor bounds
 lowerBound = 5000
 upperBound = 7000
@@ -53,47 +49,43 @@ def main(passcode, ps, last):
 
     #Check light reading
 
+    #High: less shade, value 1
+    #Low: max shade, value 0
+
     #No shade
     if lightReading < lowerBound:
-        print("None: No motion " + str(lightReading))
+        #print("None: No motion " + str(lightReading))
+        if last == 1: #Light hand wave
+            passcode[ps] = 1
+            print("1: Far motion")
+            ps = ps + 1
+            if ps == 5:
+                ps = 0
+                print("Passcode is: ")
+                print(*passcode)
+                print("Passcode is now being reset.")
+                passcode = [2, 2, 2, 2, 2]
+        elif last == 0: #Dark hand wave
+            passcode[ps] = 0
+            print("0: Close motion")
+            ps = ps + 1
+            if ps == 5:
+                ps = 0
+                print("Passcode is: ")
+                print(*passcode)
+                print("Passcode is now being reset.")
+                passcode = [2, 2, 2, 2, 2]
         last = 2
-        time.sleep(0.05)
+        time.sleep(0.1)
     #A little shade
     elif lightReading <= upperBound and lowerBound <= lightReading:
-        print("1: Far motion " + str(lightReading))
-        if passcode[0] == 2:
-            passcode[ps] = 1
-            ps = ps + 1
+        #print("1: Far motion " + str(lightReading))
+        if last == 2:
             last = 1
-        elif last != 1:
-            passcode[ps] = 1
-            ps = ps + 1
-            last = 1
-            if ps == 5:
-                ps = 0
-                print("Passcode is: ")
-                print(*passcode)
-                print("Passcode is now being reset.")
-                passcode = [2, 2, 2, 2, 2]
-        time.sleep(0.05)
     #Max shade
     elif lightReading > upperBound:
-        print("0: Close motion " + str(lightReading))
-        if passcode[0] == 2:
-            passcode[ps] = 0
-            ps = ps + 1
-            last = 0
-        elif last != 0:
-            passcode[ps] = 0
-            ps = ps + 1
-            last = 0
-            if ps == 5:
-                ps = 0
-                print("Passcode is: ")
-                print(*passcode)
-                print("Passcode is now being reset.")
-                passcode = [2, 2, 2, 2, 2]
-        time.sleep(0.05)
+        #print("0: Close motion " + str(lightReading))
+        last = 0
 
         #if motionInput == passcode[passcodeSequence] and motionInput != '' and passcodeEntered == False:
         #    if len(passcode) - 1 == passcodeSequence:
