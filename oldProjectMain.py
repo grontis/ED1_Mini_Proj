@@ -125,7 +125,7 @@ def reset_password(set, red, last = 2):
             print("1: Far motion")
             blink_red_high(red)
             n += 1
-            if n == 4:
+            if n == 3:
                 if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
                             and set[2] == 0 and set[3] == 0):
                     print(*set, "is already a required command, not resetting password")
@@ -138,7 +138,7 @@ def reset_password(set, red, last = 2):
             print("0: Close motion")
             blink_red_low(red)
             n += 1
-            if n == 4:
+            if n == 3:
                 if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
                             and set[2] == 0 and set[3] == 0):
                     print(*set, "is already a required command, not resetting password")
