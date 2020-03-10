@@ -76,7 +76,6 @@ def main(passcode, ps, last):
                 print("Passcode is now being reset.")
                 passcode = [2, 2, 2, 2, 2]
         last = 2
-        time.sleep(0.1)
     #A little shade
     elif lightReading <= upperBound and lowerBound <= lightReading:
         #print("1: Far motion " + str(lightReading))
@@ -139,7 +138,6 @@ def main(passcode, ps, last):
         #deviceShadowHandler.shadowUpdate(json.dumps(payload), customShadowCallback_Update, 5)
 
 
-    time.sleep(1.5)
     print("Current Passcode:")
     print(*passcode)
     return passcode, ps, last
