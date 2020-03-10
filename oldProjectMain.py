@@ -67,17 +67,17 @@ def main(passcode, ps, last, set, red, green, motorOn):
         if last == 1: #Light hand wave
             passcode[ps] = 1
             print("1: Far motion")
-            red_blink_high(red)
+            blink_red_high(red)
             ps = ps + 1
             if ps == 5:
                 ps = 0
                 print("Passcode is: ", *passcode)
-                set, motorOn = check_action(passcode, motorOn, set, green)
+                set, motorOn = check_action(passcode, motorOn, set, red, green)
                 passcode = [2, 2, 2, 2, 2]
         elif last == 0: #Dark hand wave
             passcode[ps] = 0
             print("0: Close motion")
-            red_blink_low(red)
+            blink_red_low(red)
             ps = ps + 1
             if ps == 5:
                 ps = 0
@@ -104,7 +104,7 @@ def main(passcode, ps, last, set, red, green, motorOn):
     return passcode, ps, last, set
 
 
-def reset_password(set, last = 2):
+def reset_password(set, red, last = 2):
     print("Reset your password:")
     n = 0
     old = [0, 0, 0, 0]
@@ -122,7 +122,7 @@ def reset_password(set, last = 2):
         if last == 1:  # Light hand wave
             set[n] = 1
             print("1: Far motion")
-            red_blink_high()
+            blink_red_high(red)
             n += 1
             if n == 4:
                 if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
@@ -135,7 +135,7 @@ def reset_password(set, last = 2):
         elif last == 0:  # Dark hand wave
             set[n] = 0
             print("0: Close motion")
-            red_blink_low()
+            blink_red_low(red)
             n += 1
             if n == 4:
                 if (set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
@@ -161,7 +161,7 @@ def getLight():
         lightVal += lightChannel.value
     return lightVal / 100
 
-def check_action(p, motorOn, set, green):
+def check_action(p, motorOn, set, red, green):
     if p[0] == set[0] and p[1] == set[1] and p[2] == set[2] and p[3] == set[3]:
         if p[4] == 1:
             motorOn = 1  #Clockwise
@@ -177,7 +177,7 @@ def check_action(p, motorOn, set, green):
         #green_off(green)
         return set, motorOn
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
-        set = reset_password(set)
+        set = reset_password(set, red)
         return set, motorOn
     else:
         print("Password not recognized")
