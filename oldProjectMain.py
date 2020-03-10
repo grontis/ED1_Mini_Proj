@@ -107,12 +107,13 @@ def main(passcode, ps, last, set, red, green, motorOn):
 def reset_password(set, red, last = 2):
     print("Reset your password:")
     n = 0
-    print(*set)
     old = [0, 0, 0, 0]
     old[0] = set[0]
     old[1] = set[1]
     old[2] = set[2]
     old[3] = set[3]
+    print("Old: ", *old)
+    print("Set: ", *set)
 
     # Check light reading
     if n < 4:
@@ -156,6 +157,8 @@ def getLight():
     return lightVal / 100
 
 def check_action(p, motorOn, set, red, green):
+    print("P: ", p)
+    print("Set: ", set)
     if p[0] == set[0] and p[1] == set[1] and p[2] == set[2] and p[3] == set[3]:
         if p[4] == 1:
             motorOn = 1  #Clockwise
