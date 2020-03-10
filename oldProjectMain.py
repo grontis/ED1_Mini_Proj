@@ -116,7 +116,8 @@ def reset_password(set, red, last = 2):
     print("Set: ", *set)
 
     # Check light reading
-    if n < 3:
+    while n < 4:
+        print("n: ", n, "old: ", *old, "set: ", *set)
         lightReading = getLight()
         # No shade
         if lightReading < lowerBound:
@@ -138,15 +139,14 @@ def reset_password(set, red, last = 2):
         # Max shade
         elif lightReading > upperBound:
             last = 0
+    print("Final set: ", *set)
+    if ((set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
+                                                         and set[2] == 0 and set[3] == 0)):
+        print(*set, "is already a required command, not resetting password")
+        return old
     else:
-        print("Final set: ", *set)
-        if ((set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
-                                                             and set[2] == 0 and set[3] == 0)):
-            print(*set, "is already a required command, not resetting password")
-            return old
-        else:
-            print("The new password is: ", *set)
-            return set
+        print("The new password is: ", *set)
+        return set
 
 
 
