@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from time import sleep
 import board
 import time
 import busio
@@ -61,14 +62,17 @@ GPIO.output(green, GPIO.LOW)
 while True:
     lightVal = getLight()
 
-    if(lightVal > 6000):
-        turnOnLED(red)
-        turnOffLED(green)
-        clockwise()
+#    if(lightVal > 6000):
+#        clockwise()
+#        turnOnLED(green)
+#        sleep(0.05)
+#        turnOffLED(green)
 
-    else:
-        turnOnLED(green)
-        turnOffLED(red)
-        stop()
+#    else:
+#        counterClockwise()
+#        turnOnLED(green)
+#        sleep(0.4)
+#        turnOffLED(green)
+
     print(lightVal)
 
