@@ -19,7 +19,7 @@ GPIO.cleanup()
 i2c = busio.I2C(board.SCL, board.SDA)
 ads = ADS.ADS1015(i2c)
 #single ended analog input mode
-lightChannel = AnalogIn(ads, ADS.P0)
+lightChannel = AnalogIn(ads, ADS.P1)
 
 
 #Light sensor bounds
