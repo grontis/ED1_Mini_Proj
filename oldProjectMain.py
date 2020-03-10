@@ -183,7 +183,7 @@ def check_action(p, motorOn, set, red, green, greenState):
         return set, motorOn, greenState
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
         print(set, motorOn, greenState)
-        set = reset_password(set, red, motorOn, greenState)
+        set, greenState = reset_password(set, red, motorOn, greenState)
         return set, motorOn, greenState
     else:
         print("Password not recognized")
