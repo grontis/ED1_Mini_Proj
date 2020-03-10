@@ -233,7 +233,15 @@ def blink_green_slow(green):
 def green_off(green):
     turnOff(green)
 
+def turnOn(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
 
+def turnOff(pin):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.LOW)
 
 def clockwise():
 	GPIO.output(motorA,GPIO.HIGH)
