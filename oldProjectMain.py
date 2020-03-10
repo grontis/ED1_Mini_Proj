@@ -115,7 +115,7 @@ def main(passcode, ps, last, set, red, green, motorOn, greenState):
         greenLight(green, motorOn, greenState)
         greenState += 1
         print("GS: ", greenState)
-    return passcode, ps, last, set, greenState
+    return passcode, ps, last, set, motorOn, greenState
 
 
 def reset_password(set, red, greenState, last = 2):
@@ -278,4 +278,4 @@ print("Then use H for clock-wise and L for counter-clockwise")
 print("Stop motor with LLLLL")
 print("Reset password with HHHHH")
 while(True):
-    passcode, ps, last, set, greenState = main(passcode, ps, last, set, red, green, motorOn, greenState)
+    passcode, ps, last, set, motorOn, greenState = main(passcode, ps, last, set, red, green, motorOn, greenState)
