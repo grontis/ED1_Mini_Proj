@@ -58,8 +58,9 @@ GPIO.setup(green, GPIO.OUT)
 GPIO.output(green, GPIO.LOW)
 
 motorOn = 2
+greenState = 0
 
-def main(passcode, ps, last, set, red, green, motorOn):
+def main(passcode, ps, last, set, red, green, motorOn, greenState):
 
     #Read light
 
@@ -80,7 +81,7 @@ def main(passcode, ps, last, set, red, green, motorOn):
             if ps == 5:
                 ps = 0
                 print("Passcode is: ", *passcode)
-                set, motorOn = check_action(passcode, motorOn, set, red, green)
+                set, motorOn, greenState = check_action(passcode, motorOn, set, red, green, greenState)
                 passcode = [2, 2, 2, 2, 2]
         elif last == 0: #Dark hand wave
             passcode[ps] = 0
@@ -110,12 +111,12 @@ def main(passcode, ps, last, set, red, green, motorOn):
     #if motorOn == 0:
 
     #elif motorOn == 1:
+    if motorOn != 2:
+        greenState = greenLight(green, motorOn, greenState)
+    return passcode, ps, last, set, greenState
 
 
-    return passcode, ps, last, set
-
-
-def reset_password(set, red, last = 2):
+def reset_password(set, red, last = 2, greenState):
     print("Reset your password:")
     n = 0
     old = [0, 0, 0, 0]
@@ -147,13 +148,15 @@ def reset_password(set, red, last = 2):
         # Max shade
         elif lightReading > upperBound:
             last = 0
+        if motorOn != 2:
+            greenState = greenLight(green, motorOn, greenState)
     if ((set[0] == 1 and set[1] == 1 and set[2] == 1 and set[3] == 1) or (set[0] == 0 and set[1] == 0 \
                                                          and set[2] == 0 and set[3] == 0)):
         print(*set, "is already a required command, not resetting password")
-        return old
+        return old, greenState
     else:
         print("The new password is: ", *set)
-        return set
+        return set, greenState
 
 
 
@@ -164,7 +167,7 @@ def getLight():
         lightVal += lightChannel.value
     return lightVal / 100
 
-def check_action(p, motorOn, set, red, green):
+def check_action(p, motorOn, set, red, green, greenState):
     print("P: ", p)
     print("Set: ", set)
     if p[0] == set[0] and p[1] == set[1] and p[2] == set[2] and p[3] == set[3]:
@@ -173,13 +176,13 @@ def check_action(p, motorOn, set, red, green):
             clockwise()
             #blink_green_fast(green)
             print("Motor Clockwise")
-            return set, motorOn
+            return set, motorOn, greenState
         if p[4] == 0:
             motorOn = 0  #Counterclockwise
             counterClockwise()
             #blink_green_slow(green)
             print("Motor Counterclockwise")
-            return set, motorOn
+            return set, motorOn, greenState
     elif p[0] == 0 and p[1] == 0 and p[2] == 0 and p[3] == 0 and p[4] == 0:
         #green_off(green)
         motorOn = 2
@@ -187,11 +190,11 @@ def check_action(p, motorOn, set, red, green):
         print("Motor Off")
         return set, motorOn
     elif p[0] == 1 and p[1] == 1 and p[2] == 1 and p[3] == 1 and p[4] == 1:
-        set = reset_password(set, red)
-        return set, motorOn
+        set, greenState = reset_password(set, red, greenState)
+        return set, motorOn, greenState
     else:
         print("Password not recognized")
-        return set, motorOn
+        return set, motorOn, greenState
 
 def blink_red_high(red):
     turnOn(red)
@@ -215,7 +218,19 @@ def blink_red_low(red):
         #if event_set:
 
 
-
+def greenLight(green, motorOn, greenState):
+    if motorOn == 0: #Counterclockwise
+        if greenState % 4 == 0:
+            turnOn(green)
+        elif greenState % 2 == 0:
+            turnOff(green)
+    else: #Clockwise
+        if greenState % 2 == 0:
+            turnOn(green)
+        elif greenState % 1 == 0:
+            turnOff(green)
+    greenState += 1
+    return greenState
 
 
 def blink_green_fast(green):
@@ -262,4 +277,4 @@ print("Then use H for clock-wise and L for counter-clockwise")
 print("Stop motor with LLLLL")
 print("Reset password with HHHHH")
 while(True):
-    passcode, ps, last, set = main(passcode, ps, last, set, red, green, motorOn)
+    passcode, ps, last, set, greenState = main(passcode, ps, last, set, red, green, motorOn, greenState)
