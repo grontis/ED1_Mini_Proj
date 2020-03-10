@@ -116,7 +116,7 @@ def reset_password(set, red, last = 2):
     print("Set: ", *set)
 
     # Check light reading
-    if n < 4:
+    if n < 3:
         lightReading = getLight()
         # No shade
         if lightReading < lowerBound:
