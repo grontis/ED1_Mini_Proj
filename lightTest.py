@@ -10,7 +10,7 @@ import sys, time
 i2c = busio.I2C(board.SCL, board.SDA)
 ads = ADS.ADS1015(i2c)
 #single ended analog input mode
-chan1 = AnalogIn(ads, ADS.P0)
+chan1 = AnalogIn(ads, ADS.P1)
 
 #Motor
 motorA=24
